@@ -3,7 +3,6 @@ import os
 
 if 'DATABASE_URL' in os.environ:
     application = create_app()
-    return application
 else:
     app = create_app()
     app.run()
