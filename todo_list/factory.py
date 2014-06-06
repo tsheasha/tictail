@@ -14,7 +14,7 @@ def create_app(priority_settings=None):
     # Initialising a Flask App
     app = Flask(__name__, static_url_path='')
     heroku = Heroku()
-    
+    compress = Compress() 
     # Load configuraiton from settings file
     app.config.from_object(settings)
 
