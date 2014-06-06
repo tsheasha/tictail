@@ -1,7 +1,5 @@
 /*global $ */
 /*jshint unused:false */
-var ENTER_KEY = 13;
-var ESC_KEY = 27;
 
 require.config({ 
     baseUrl: 'js',
@@ -15,19 +13,19 @@ require.config({
         templates: 'templates',
         collections: 'collections',
     },
- 
+    // Shim these dependcies to define order to requireJS's asynchronous feature 
     shim: {
         'underscore': {
             exports: '_'
-        },
-      'backbone': {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
         },
         "jquery-ui": {
             exports: "$",
             deps: ['jquery']
         },
+      'backbone': {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        }
     }
 });
 

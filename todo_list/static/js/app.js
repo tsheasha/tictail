@@ -8,7 +8,7 @@ define([
   'views/app-view', // Request app-view.js
 ], function($, _, Backbone, AppView){
   var initialize = function(){
-    // Pass in our AppView module and initialize it
+    // Initialise our AppView module
     new AppView();
   }
 
