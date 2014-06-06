@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" data-framework="backbonejs">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>TicTail Todo</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/base.css') }}">
+	</head>
+	<body>
+		<section id="todoapp">
+			<header id="header">
+				<h1>Todos</h1>
+				<input id="new-todo" placeholder="What needs to be done?" autofocus>
+			</header>
+			<section id="main">
+				<input id="toggle-all" type="checkbox">
+				<label for="toggle-all">Mark all as complete</label>
+				<ul id="todo-list"></ul>
+			</section>
+			<footer id="footer"></footer>
+		</section>
+	</body>
+    <script data-main="js/main" src="js/require.js"></script>
+</html>
