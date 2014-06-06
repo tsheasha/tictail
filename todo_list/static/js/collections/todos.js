@@ -1,6 +1,6 @@
 /*global Backbone */
 define([
-  'backbone',    // lib/backbone/backbone
+  'backbone',    
   'models/todo'
 ], function(Backbone, Todo){
 	'use strict';
@@ -8,8 +8,6 @@ define([
 	// Todo Collection
 	// ---------------
 
-	// The collection of todos is backed by *localStorage* instead of a remote
-	// server.
 	var Todos = Backbone.Collection.extend({
 		// Reference to this collection's model.
 		model: Todo,
@@ -26,8 +24,7 @@ define([
 			return this.without.apply(this, this.completed());
 		},
 
-		// We keep the Todos in sequential order, despite being saved by unordered
-		// GUID in the database. This generates the next order number for new items.
+        // Find order to be chosen for next todo item
 		nextOrder: function () {
 			if (!this.length) {
 				return 1;
@@ -35,12 +32,10 @@ define([
 			return this.last().get('order') + 1;
 		},
 
-		// Todos are sorted by their original insertion order.
 		comparator: function (todo) {
 			return todo.get('order');
 		}
 	});
 
-	// Create our global collection of **Todos**.
 	return Todos;
 });

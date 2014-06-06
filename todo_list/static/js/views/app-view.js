@@ -2,11 +2,10 @@
 var ENTER_KEY = 13;
 
 define([
-  // These are path alias that we configured in our bootstrap
-  'jquery',     // lib/jquery/jquery
-  'jqueryui',     // lib/jquery/jquery-ui
-  'underscore', // lib/underscore/underscore
-  'backbone',    // lib/backbone/backbone
+  'jquery',
+  'jqueryui', 
+  'underscore',
+  'backbone',
   'views/todo-view',
   'collections/todos',
   'text!templates/todo/stats.tpl'
@@ -16,14 +15,12 @@ define([
 	// The Application
 	// ---------------
 
-	// Our overall **AppView** is the top-level piece of UI.
+	// **AppView** is the top-level piece of UI.
 	var AppView = Backbone.View.extend({
 
-		// Instead of generating a new element, bind to the existing skeleton of
-		// the App already present in the HTML.
 		el: '#todoapp',
 
-		// Our template for the line of statistics at the bottom of the app.
+		// Template for the line of statistics at the bottom of the app.
 		statsTemplate: _.template(StatsTemplate),
 
 		// Delegated events for creating new items.
@@ -32,7 +29,7 @@ define([
 			'click #toggle-all': 'toggleAllComplete'
 		},
 
-		// At initialization we bind to the relevant events on the `Todos`
+		// At initialization bind to the relevant events on the `Todos`
 		// collection, when items are added or changed. Kick things off by
 		// loading any preexisting todos that might be saved in *localStorage*.
 		initialize: function () {
@@ -45,6 +42,7 @@ define([
             this.todos = new Todos();
             this.todos.url = '/todos/';      
             var todos = this.todos; 
+            
             // Making the Todo Items sortable.
             this.$("#todo-list").sortable({
                 update: function(event, ui) {
@@ -112,8 +110,7 @@ define([
 			};
 		},
 
-		// If you hit return in the main input field, create new **Todo** model,
-		// persisting it to *localStorage*.
+		// If you hit return in the main input field, create new **Todo** model
 		createOnEnter: function (e) {
 			if (e.which === ENTER_KEY && this.$input.val().trim()) {
 				this.todos.create(this.newAttributes());

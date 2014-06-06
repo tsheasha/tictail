@@ -1,16 +1,16 @@
 /*global Backbone */
 define([
-  'backbone'   // lib/backbone/backbone
+  'backbone'  
 ], function(Backbone){
     	'use strict';
 
 	// Todo Model
 	// ----------
 
-	// Our basic **Todo** model has `title`, `order`, and `completed` attributes.
+	// **Todo** model has `title`, `order`, and `completed` attributes.
 	var Todo = Backbone.Model.extend({
 		// Default attributes for the todo
-		// and ensure that each todo created has `title` and `completed` keys.
+		// and ensure that each todo created has `title`, `todo_id`, and `completed` keys.
 		defaults: {
             todo_id: '',
 			title: '',
