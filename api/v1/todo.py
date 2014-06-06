@@ -10,6 +10,8 @@ def list():
     todos = Todo.query
     if 'limit' in request.args:
         todos = todos.limit(int(request.args['limit']))
+    else:
+        todos = todos.limit(50)
     if 'offset' in request.args:
         todos = todos.offset(int(request.args['offset']))  
     todos = todos.all()
