@@ -14,7 +14,7 @@ def list():
         todos = todos.offset(int(request.args['offset']))  
     todos = todos.all()
     todo_list = map(Todo.to_json, todos)
-    return jsonify(data=todo_list), 200
+    return jsonify(todos=todo_list), 200
 
 # API call to create new Todo
 @api_todo_blueprint.route('/', methods=['POST'])
