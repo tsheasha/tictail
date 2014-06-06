@@ -11,12 +11,10 @@ and its URLs is one of the most controversial topics in my opinion. However,
 I tried my best to produce an API that I feel comfortable with. 
 I will explain the reasoning behind the architecture of each step. 
 I have done a lot of discussions with myself regarding the architecture, 
-however, these are too long to write down, so if you want we can set up a
-Skype call to discuss them and I can share with you my thoughts during the process.
+however, these are too long to write down, so I will discuss them during or follow-up. 
 
 
-
-* I used a separate url for the api with versioning, to maintain a scalable system that can 
+* I used a separate url for the api, to maintain a scalable system that can 
 accommodate several versions. 
 
 * The choice of a separate url was not my top preference, however ideally, it would have been better to make the api
@@ -32,7 +30,7 @@ being part of the url, I found the HTTP header option to be more elegant and RES
 
 * JSON responses are gzipped and the HTTP response Content-Encoding Header specifies this.
 
-* Optional parameters for listing todos  (limit, offset)
+* Optional parameters for listing todos (limit, offset)
 
 
      I have worked my hardest into meaning the API as RESTful as possible, maintaining RESTful URLs along the way.
@@ -81,8 +79,8 @@ Response
       ]
     }
     
-    HTTP/1.1 200
 ```
+    HTTP/1.1 200
 
 Get a single Todo item
           
@@ -98,8 +96,8 @@ Response
       "title": "Discuss report with John"
     }
   
-    HTTP/1.1 200
 ```     
+    HTTP/1.1 200
 
 Create a new todo
      
