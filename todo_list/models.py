@@ -42,7 +42,6 @@ class Todo(db.Model):
             self.title = form_src['title'][0]
         if 'order' in form_src:
             self.order = int(form_src['order'][0])
-            print form_src['order'][0], ' Models'
         else:
             order = db.session.query(func.max(Todo.order) \
                                         .label("last_order")) \

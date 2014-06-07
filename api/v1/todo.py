@@ -36,7 +36,6 @@ def read(id):
 def update(id):
     todo = Todo.query.get_or_404(id)
     todo.from_form(dict(request.form))
-    print todo.order
     return _todo_response(todo), 204
 
 def _todo_response(todo):
