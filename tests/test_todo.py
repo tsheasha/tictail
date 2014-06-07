@@ -5,7 +5,7 @@ import json
 from tests import settings
 from todo_list.extensions import db
 from todo_list.factory import create_app
-from todo_list.models import Todo
+from todo_list.models import Todo, User
 
 
 class TodoTestCase(unittest.TestCase):
