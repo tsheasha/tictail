@@ -113,6 +113,7 @@ Parameters
 | Name        | Type           | Description  |
 | ------------- |:-------------:|:-----|
 | title | string      |  The content of the todo item. |
+| user_id | string      |  The user ID of the todo item owner. |
           
 Response
 
