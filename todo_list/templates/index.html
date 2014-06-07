@@ -5,20 +5,33 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>TicTail Todo</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/base.css') }}">
+        <link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>        
+        <script data-main="js/main" src="js/require.js"></script>
+
 	</head>
+    {% block nav %}
+        <div class="nav-collapse collapse">
+                {% if g.user.is_authenticated()%}
+                    <a class="logout-button" href="/logout">Logout</a>
+                {% endif %}
+        </div>
+    {% endblock %}
 	<body>
-		<section id="todoapp">
-			<header id="header">
-				<h1>Todos</h1>
-				<input id="new-todo" placeholder="What needs to be done?" autofocus>
-			</header>
-			<section id="main">
-				<input id="toggle-all" type="checkbox">
-				<label for="toggle-all">Mark all as complete</label>
-				<ul id="todo-list"></ul>
-			</section>
-			<footer id="footer"></footer>
-		</section>
+        {% block body %}
+            {% if g.user.is_authenticated()%}
+                <section id="todoapp">
+                    <header id="header">
+                        <h1>Todos</h1>
+                        <input id="new-todo" placeholder="What needs to be done {{g.user.username}}?" autofocus>
+                    </header>
+                    <section id="main">
+                        <input id="toggle-all" type="checkbox">
+                        <label for="toggle-all">Mark all as complete</label>
+                        <ul id="todo-list"></ul>
+                    </section>
+                    <footer id="footer"></footer>
+                </section>
+            {% endif %}
+        {% endblock %}
 	</body>
-    <script data-main="js/main" src="js/require.js"></script>
 </html>

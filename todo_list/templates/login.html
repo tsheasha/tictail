@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block body %}
+    <div class="login-card">
+        <h1>Login</h1><br>
+      <form action="" method=post >
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" name="login" class="login login-submit" value="Login">
+      </form>
+
+      <div class="login-help">
+        <a href="/register">Register</a>
+      </div>
+    </div>
+{% endblock %}
+
