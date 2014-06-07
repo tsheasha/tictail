@@ -5,7 +5,7 @@ from fabric.contrib.console import confirm
 
 def test():
     with settings(warn_only=True):
-        result = local("python tests/test_todo.py -v && python test_api.py -v", capture=True)
+        result = local("nosetests", capture=True)
     if result.failed and not confirm("Tests failed. Continue?"):
         abort("Aborted at user request.")
 
