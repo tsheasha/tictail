@@ -50,34 +50,38 @@ Parameters
 Response
      
 ```json
-    {
-      "todos": [
-        {
-          "completed": true, 
-          "id": 2, 
-          "order": 2, 
-          "title": "Get a haircut"
-        }, 
-        {
-          "completed": true, 
-          "id": 3, 
-          "order": 3, 
-          "title": "Pay electricity bill"
-        }, 
-        {
-          "completed": false, 
-          "id": 1, 
-          "order": 1, 
-          "title": "Discuss report with John"
-        }, 
-        {
-          "completed": false, 
-          "id": 4, 
-          "order": 4, 
-          "title": "Check gym hours"
-        }
-      ]
-    }
+     {
+       "todos": [
+         {
+           "completed": false, 
+           "id": 1, 
+           "order": 1, 
+           "title": "Discuss report with John", 
+           "user": "tsheasha"
+         }, 
+         {
+           "completed": false, 
+           "id": 4, 
+           "order": 4, 
+           "title": "Check gym hours", 
+           "user": "tsheasha"
+         }, 
+         {
+           "completed": true, 
+           "id": 2, 
+           "order": 2, 
+           "title": "Get a haircut", 
+           "user": "tsheasha"
+         }, 
+         {
+           "completed": true, 
+           "id": 3, 
+           "order": 3, 
+           "title": "Pay electricity bill", 
+           "user": "tsheasha"
+         }
+       ]
+     }
     
 ```
     HTTP/1.1 200
@@ -89,12 +93,13 @@ Get a single Todo item
 Response
      
 ```json
-    {
-      "completed": false, 
-      "id": 1, 
-      "order": 1, 
-      "title": "Discuss report with John"
-    }
+     {
+       "completed": false, 
+       "id": 1, 
+       "order": 1, 
+       "title": "Discuss report with John", 
+       "user": "tsheasha"
+     }
   
 ```     
     HTTP/1.1 200
