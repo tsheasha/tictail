@@ -27,6 +27,9 @@ class TodoTestCase(unittest.TestCase):
             db.drop_all()
 
     def create(self, title, completed=False):
+        """
+        Create a new Todo item
+        """
         todo = {"title": title,
                 "order": self.order,
                 "completed": completed}
@@ -45,6 +48,9 @@ class TodoTestCase(unittest.TestCase):
         return created
 
     def read(self, id):
+        """
+        Get a Todo item
+        """
         response = self.client.get(
             '/todos/%d' % id,
             content_type='application/json')
@@ -53,34 +59,30 @@ class TodoTestCase(unittest.TestCase):
             return None
         return json.loads(response.data)
 
-    def list_all(self):
-        response = self.client.get(
-            '/todos/',
-            content_type='application/json')
-        if response.status_code != 200:
-            assert response.status_code == 404
-            return None
-        return json.loads(response.data)
-
-
     def test_create(self):
-        todo1 = self.create('Pick up kids')
-        assert todo1['title'] == 'Pick up kids'
+        """
+        Test if app creates new todo item
+        """
+        todo1 = self.create('Write app tests')
+        assert todo1['title'] == 'Write app tests'
         assert todo1['order'] == 1
         assert not todo1['completed']
 
         todo2 = self.create(
-            'Buy groceries', completed=True)
-        assert todo2['title'] == 'Buy groceries'
+            'Write automation tests', completed=True)
+        assert todo2['title'] == 'Write automation tests'
         assert todo2['order'] == 2
         assert todo2['completed']
 
         assert todo1['id'] != todo2['id']
 
     def test_read(self):
-        todo1 = self.create('Pick up kids')
+        """
+        Test if app can get a single item by ID
+        """
+        todo1 = self.create('Write app tests')
         todo2 = self.create(
-            'Buy groceries', completed=True)
+            'Write automation tests', completed=True)
 
         read1 = self.read(todo1['id'])
         read2 = self.read(todo2['id'])
@@ -92,21 +94,34 @@ class TodoTestCase(unittest.TestCase):
         assert read3 is None
 
     def test_list(self):
-        todo1 = self.create('Pick up kids')
+        """
+        Test if app returns list of all todos
+        """
+        todo1 = self.create('Write app tests')
         todo2 = self.create(
-            'Buy groceries', completed=True)
+            'Write automation tests', completed=True)
 
-        todos_list = self.list_all()
+        response = self.client.get(
+            '/todos/',
+            content_type='application/json')
+        if response.status_code != 200:
+            assert response.status_code == 404
+        
+        todos_list = json.loads(response.data)
+
         todos = [todo1,todo2]
         assert todos_list == todos
 
     def test_update(self):
-        todo = self.create('Pick up kids')
+        """
+        Test if app can update order of a todo item by ID
+        """
+        todo = self.create('Write app tests')
         id = todo['id']
 
         updates = dict(**todo)
         updates['completed'] = True
-        updates['title'] = 'Pick up *all* kids'
+        updates['title'] = 'Write all app tests'
 
         req = self.client.put(
             '/todos/%d' % id,
