@@ -122,7 +122,13 @@ Response
 Change order of a todo item
      
      PUT /api/todos/ID
+
+Parameters
      
+| Name        | Type           | Description  |
+| ------------- |:-------------:|:-----|
+| order | string      |  The new order of the todo item within the list. |
+
 Response
 
           HTTP/1.1 204
