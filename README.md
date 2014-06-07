@@ -38,7 +38,7 @@ being part of the url, I found the HTTP header option to be more elegant and RES
 ### API Documentation
 List Todos
           
-     GET /api/todos
+     GET /api/todos/
           
 Parameters
      
@@ -88,7 +88,7 @@ Response
 
 Get a single Todo item
           
-     GET /api/todos/ID
+     GET /api/todos/ID/
 
 Response
      
@@ -106,7 +106,7 @@ Response
 
 Create a new todo
      
-     POST /api/todos
+     POST /api/todos/
      
 Parameters
      
@@ -121,7 +121,7 @@ Response
           
 Change order of a todo item
      
-     PUT /api/todos/ID
+     PUT /api/todos/ID/
      
 Response
 
