@@ -21,7 +21,7 @@ def create():
     todo = Todo()
     todo.user = g.user
     todo.from_json(request.get_json())
-    return _todo_response(todo)
+    return _todo_response(todo), 201
 
 # Get a single todo item
 @todo_blueprint.route('/<int:id>', methods=['GET'])

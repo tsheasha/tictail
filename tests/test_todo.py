@@ -5,7 +5,7 @@ import json
 from tests import settings
 from todo_list.extensions import db
 from todo_list.factory import create_app
-from todo_list.models import Todo, User
+from util import read, create, login, logout
 
 
 class TodoTestCase(unittest.TestCase):
@@ -17,88 +17,83 @@ class TodoTestCase(unittest.TestCase):
         self.app = create_app(
             priority_settings=settings)
         self.client = self.app.test_client()
+        
+        self.client.post('/register', data=dict(
+            username='tsheasha',
+            password='password'
+        ))
+
+        self.client.post('/register', data=dict(
+            username='nahla',
+            password='password'
+        ))
+
+        self.client.post('/login', data=dict(
+            username='tsheasha',
+            password='password'
+        ))
+
         self.order = 1
 
     def tearDown(self):
         """
         Clear database
         """
+        self.client.get('/logout')
+
         with self.app.app_context():
             db.drop_all()
-
-    def create(self, title, completed=False):
-        """
-        Create a new Todo item
-        """
-        todo = {"title": title,
-                "order": self.order,
-                "completed": completed}
-        response = self.client.post(
-            '/todos/',
-            data=json.dumps(todo),
-            content_type='application/json')
-        created = json.loads(response.data)
-
-        assert 'id' in created
-        assert created['title'] == title
-        assert created['order'] == self.order
-        assert created['completed'] == completed
-        self.order += 1
-
-        return created
-
-    def read(self, id):
-        """
-        Get a Todo item
-        """
-        response = self.client.get(
-            '/todos/%d' % id,
-            content_type='application/json')
-        if response.status_code != 200:
-            assert response.status_code == 404
-            return None
-        return json.loads(response.data)
 
     def test_create(self):
         """
         Test if app creates new todo item
         """
-        todo1 = self.create('Write app tests')
+        todo1 = create(self, 'Write app tests')
         assert todo1['title'] == 'Write app tests'
         assert todo1['order'] == 1
         assert not todo1['completed']
+        assert todo1['user'] == 'tsheasha'
 
-        todo2 = self.create(
+        todo2 = create(self,
             'Write automation tests', completed=True)
         assert todo2['title'] == 'Write automation tests'
         assert todo2['order'] == 2
         assert todo2['completed']
+        assert todo2['user'] == 'tsheasha'
 
-        assert todo1['id'] != todo2['id']
+        logout(self)
+        login(self, "nahla", "password")
+
+        todo3 = create(self,
+            'Write automation tests', completed=True)
+        assert todo3['title'] == 'Write automation tests'
+        assert todo3['order'] == 3
+        assert todo3['completed']
+        assert todo3['user'] == 'nahla'
 
     def test_read(self):
         """
         Test if app can get a single item by ID
         """
-        todo1 = self.create('Write app tests')
-        todo2 = self.create(
+        todo1 = create(self, 'Write app tests')
+        todo2 = create(self,
             'Write automation tests', completed=True)
 
-        read1 = self.read(todo1['id'])
-        read2 = self.read(todo2['id'])
+        read1 = read(self, todo1['id'])
+        read2 = read(self, todo2['id'])
 
         assert read1 == todo1
         assert read2 == todo2
 
-        read3 = self.read(todo2['id'] + 1)
+        read3 = read(self, todo2['id'] + 1)
         assert read3 is None
 
     def test_list(self):
         """
         Test if app returns list of all todos
         """
-        todo1 = self.create('Write app tests')
-        todo2 = self.create(
+        todo1 = create(self, 'Write app tests')
+        todo2 = create(self,
             'Write automation tests', completed=True)
 
         response = self.client.get(
@@ -116,7 +111,7 @@ class TodoTestCase(unittest.TestCase):
         """
         Test if app can update order of a todo item by ID
         """
-        todo = self.create('Write app tests')
+        todo = create(self, 'Write app tests')
         id = todo['id']
 
         updates = dict(**todo)
@@ -130,7 +125,7 @@ class TodoTestCase(unittest.TestCase):
         updated = json.loads(req.data)
 
         assert updated == updates
-        assert self.read(id) == updates
+        assert read(self, id) == updates
 
 if __name__ == '__main__':
     unittest.main()

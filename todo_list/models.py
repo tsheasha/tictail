@@ -41,6 +41,8 @@ class Todo(db.Model):
     # Create new Model instance from request.form format    
     # used when performing API calls.
     def from_form(self, form_src):
+        if 'user_id' in form_src:
+            self.user = User.query.filter_by(id=int(form_src['user_id'][0])).first()
         if 'title' in form_src:
             self.title = form_src['title'][0]
         if 'order' in form_src:

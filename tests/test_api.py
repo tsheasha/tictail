@@ -5,8 +5,7 @@ import json
 from tests import settings
 from todo_list.extensions import db
 from todo_list.factory import create_app
-from todo_list.models import Todo
-
+from util import read, create, login, logout
 
 class TodoAPITestCase(unittest.TestCase):
 
@@ -18,80 +17,101 @@ class TodoAPITestCase(unittest.TestCase):
             priority_settings=settings)
     
         self.client = self.app.test_client()
+        self.client.post('/register', data=dict(
+            username='tsheasha',
+            password='password'
+        ))
+
+        self.client.post('/register', data=dict(
+            username='nahla',
+            password='password'
+        ))
+
+        self.client.post('/login', data=dict(
+            username='tsheasha',
+            password='password'
+        ))
+
+
         self.order = 1
 
     def tearDown(self):
         """
         Clear database
         """
+        self.client.get('/logout')
+
         with self.app.app_context():
             db.drop_all()
-
-    def create(self, title):
-        """
-        Create a new Todo item
-        """
-        todo = {"title": title,
-                "order": self.order}
-        response = self.client.post(
-            '/api/todos/',
-            data=todo)
-        created = json.loads(response.data)
-
-        assert 'id' in created
-        assert created['title'] == title
-        assert created['order'] == self.order
-        assert created['completed'] == False
-        assert response.status_code == 201
-        self.order += 1
-
-        return created
-
-    def read(self, id):
-        """
-        Get a Todo item
-        """
-        response = self.client.get(
-            '/api/todos/%d' % id,
-            content_type='application/json')
-        if response.status_code != 200:
-            assert response.status_code == 404
-            return None
-        return json.loads(response.data)
 
     def test_create(self):
         """
         Test if API creates new todo item
         """
+        todo = {"title": 'Write API tests',
+                "order": self.order,
+                "user_id":1}
 
-        todo1 = self.create('Write API tests')
+        todo1 = create(self, url='/api', inp=todo)
         assert todo1['title'] == 'Write API tests'
         assert todo1['order'] == 1
         assert not todo1['completed']
+        assert todo1['user'] == 'tsheasha'        
 
-        todo2 = self.create('Write automation tests')
+        todo = {"title": 'Write automation tests',
+                "order": self.order,
+                "user_id":1}
+
+        todo2 = create(self, url='/api', inp=todo)
         assert todo2['title'] == 'Write automation tests'
         assert todo2['order'] == 2
         assert not todo2['completed']
+        assert todo2['user'] == 'tsheasha'
 
         assert todo1['id'] != todo2['id']
 
+        logout(self)
+        login(self, "nahla", "password")
+        
+        todo = {"title": 'Write automation tests',
+                "order": self.order,
+                "user_id":2}
+        
+        todo3 = create(self, url='/api', inp=todo)
+        assert todo3['title'] == 'Write automation tests'
+        assert todo3['order'] == 3
+        assert not todo3['completed']
+        assert todo3['user'] == 'nahla'
+    
     def test_read(self):
         """
         Test if API can get a single item by ID
         """
-        todo = self.create('Write API tests')
+        todo = {"title": 'Write API tests',
+                "order": self.order,
+                "user_id":1}
 
-        read = self.read(todo['id'])
+        todo = create(self, url='/api', inp=todo)
 
-        assert read == todo
+        read1 = read(self, todo['id'], url='/api')
+
+        assert read1 == todo
 
     def test_list(self):
         """
         Test if API returns list of all todos
         """
-        todo1 = self.create('Write API tests')
-        todo2 = self.create('Write automation tests')
+        todo = {"title": 'Write API tests',
+                "order": self.order,
+                "user_id":1}
+        
+        todo1 = create(self, url='/api', inp=todo)
+
+        todo = {"title": 'Write automation tests',
+                "order": self.order,
+                "user_id":1}
+
+        todo2 = create(self, url='/api', inp=todo)
         
         response = self.client.get(
             '/api/todos/',
@@ -108,7 +128,11 @@ class TodoAPITestCase(unittest.TestCase):
         """
         Test if API can update order of a todo item by ID
         """
-        todo = self.create('Write API tests')
+        payload = {"title": 'Write API tests',
+                "order": self.order,
+                "user_id":1}
+
+        todo = create(self, url='/api', inp=payload)
         id = todo['id']
 
         updates = {'order': 2}
@@ -118,7 +142,7 @@ class TodoAPITestCase(unittest.TestCase):
             data=updates,
             content_type='application/json')
 
-        assert self.read(id)['order'] == 2 
+        assert read(self, id, url='/api')['order'] == 2 
         assert req.status_code == 204 
 
 if __name__ == '__main__':
