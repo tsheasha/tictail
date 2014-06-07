@@ -6,7 +6,6 @@
 		<title>TicTail Todo</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/base.css') }}">
         <link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>        
-        <script data-main="js/main" src="js/require.js"></script>
 
 	</head>
     {% block nav %}
@@ -34,4 +33,7 @@
             {% endif %}
         {% endblock %}
 	</body>
+    {% if g.user.is_authenticated()%}
+        <script data-main="js/main" src="js/require.js"></script>
+    {% endif %}
 </html>
