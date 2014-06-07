@@ -121,7 +121,7 @@ Response
           
 Change order of a todo item
      
-     PUT /api/todos/ID/
+     PUT /api/todos/ID
      
 Response
 
