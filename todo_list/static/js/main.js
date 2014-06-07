@@ -18,11 +18,11 @@ require.config({
         'underscore': {
             exports: '_'
         },
-        "jquery-ui": {
+        'jqueryui': {
             exports: "$",
             deps: ['jquery']
         },
-      'backbone': {
+        'backbone': {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'
         }
