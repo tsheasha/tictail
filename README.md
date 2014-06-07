@@ -1,4 +1,4 @@
-tictail
+TicTail Todo
 ==============
 
 ## The TicTail Todo List [Deployed Version](http://tictail.herokuapp.com/)
