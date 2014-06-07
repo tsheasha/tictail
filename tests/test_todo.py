@@ -98,8 +98,6 @@ class TodoTestCase(unittest.TestCase):
 
         todos_list = self.list_all()
         todos = [todo1,todo2]
-        print todos_list
-        print todos
         assert todos_list == todos
 
     def test_update(self):
