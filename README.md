@@ -88,7 +88,7 @@ Response
 
 Get a single Todo item
           
-     GET /api/todos/ID/
+     GET /api/todos/ID
 
 Response
      
