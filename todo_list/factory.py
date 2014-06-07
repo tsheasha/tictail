@@ -16,9 +16,9 @@ def create_app(priority_settings=None):
     heroku = Heroku()
     compress = Compress() 
 
-    app.config.from_object(priority_settings)
     # Load configuraiton from settings file
     app.config.from_object(settings)
+    app.config.from_object(priority_settings)
 
     # Initialise database
     db.init_app(app)

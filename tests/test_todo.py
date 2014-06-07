@@ -2,7 +2,7 @@ import os
 import unittest
 import json
 
-import settings
+from tests import settings
 from todo_list.extensions import db
 from todo_list.factory import create_app
 from todo_list.models import Todo
@@ -13,7 +13,7 @@ class TodoTestCase(unittest.TestCase):
     def setUp(self):
         """
         Initialise Database with some values
-        """
+        """ 
         self.app = create_app(
             priority_settings=settings)
         self.client = self.app.test_client()
@@ -98,6 +98,8 @@ class TodoTestCase(unittest.TestCase):
 
         todos_list = self.list_all()
         todos = [todo1,todo2]
+        print todos_list
+        print todos
         assert todos_list == todos
 
     def test_update(self):

@@ -2,13 +2,13 @@ import os
 import unittest
 import json
 
-import settings
+from tests import settings
 from todo_list.extensions import db
 from todo_list.factory import create_app
 from todo_list.models import Todo
 
 
-class TodoTestCase(unittest.TestCase):
+class TodoAPITestCase(unittest.TestCase):
 
     def setUp(self):
         """
@@ -16,6 +16,7 @@ class TodoTestCase(unittest.TestCase):
         """
         self.app = create_app(
             priority_settings=settings)
+    
         self.client = self.app.test_client()
         self.order = 1
 
