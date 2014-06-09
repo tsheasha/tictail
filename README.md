@@ -1,7 +1,7 @@
-TicTail Todo
+Tictail Todo
 ==============
 
-## The TicTail Todo List [Deployed Version](http://tictail.herokuapp.com/)
+## The Tictail Todo List [Deployed Version](http://tictail.herokuapp.com/)
 
 
 ## API Architecture:
